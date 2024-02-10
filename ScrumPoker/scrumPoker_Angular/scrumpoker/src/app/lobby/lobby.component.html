@@ -1,0 +1,75 @@
+<div>
+  <div *ngIf="showLobby">
+    <div class="d-flex justify-content-center">
+      <div class="w-25 card border border-1 border-secondary rounded m-2">
+        <div class="card-title">
+          <div class="text-start m-2">
+            <h3>Create a room</h3>
+          </div>
+          <div class="card-body d-flex justify-content-center">
+            <input
+              class="mx-2"
+              type="text"
+              placeholder="Room Name"
+              [(ngModel)]="inputValue"
+            />
+            <button class="btn btn-primary mt-2" (click)="createRoom()">
+              Create room
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center">
+      <div class="w-25 card border border-1 border-secondary rounded m-2">
+        <div class="card-title">
+          <div class="text-start m-2">
+            <h3>Enter a room</h3>
+          </div>
+          <div class="card-body d-flex justify-content-center">
+            <input
+              class="mx-2"
+              type="text"
+              placeholder="Set player name"
+              [(ngModel)]="playerName"
+            />
+            <button class="btn btn-primary mt-2" (click)="createPlayer()">
+              Set Name.
+            </button>
+            {{ playerID }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="showLobby">
+      <div
+        class="d-flex justify-content-center"
+        *ngFor="let room of gameRooms | keyvalue"
+      >
+        <div class="w-25 card border border-1 border-secondary rounded m-2">
+          <div class="card-title text-start m-2 d-flex justify-content-between">
+            <h3>{{ room.value.room_name }}</h3>
+            <button
+              type="button"
+              class="btn-close"
+              (click)="deleteRoom(room.key)"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="card-body d-flex justify-content-center">
+            <button class="btn btn-primary mt-2" (click)="enterRoom(room.key)">
+              Enter room
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!showLobby" class="d-flex justify-content-center">
+    <app-game-room
+      (closeRoom)="closeRoom()"
+      [roomKey]="roomKey"
+      class="w-50 card border border-1 border-secondary rounded m-2"
+    ></app-game-room>
+  </div>
+</div>
