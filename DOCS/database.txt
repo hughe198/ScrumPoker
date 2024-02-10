@@ -1,0 +1,48 @@
+Certainly! A well-designed database schema is crucial for the efficiency and scalability of your ScrumPoker app, especially with the transition from SQLite to PostgreSQL. Here's a suggested schema that aligns with the proposed API endpoints:
+
+1. **Users Table**
+   - `user_id`: Primary Key, Integer, Auto-increment
+   - `username`: String, Unique
+   - `email`: String, Unique
+   - `password_hash`: String
+   - `created_at`: DateTime
+   - `last_login`: DateTime
+   - Additional fields as needed (e.g., `is_admin`: Boolean)
+
+2. **Sessions Table**
+   - `session_id`: Primary Key, Integer, Auto-increment
+   - `session_name`: String
+   - `moderator_id`: Foreign Key referencing `Users.user_id`
+   - `created_at`: DateTime
+   - `is_active`: Boolean
+   - Additional configuration fields (e.g., time limits, etc.)
+
+3. **Stories Table**
+   - `story_id`: Primary Key, Integer, Auto-increment
+   - `session_id`: Foreign Key referencing `Sessions.session_id`
+   - `title`: String
+   - `description`: Text, Nullable
+   - `status`: String (e.g., 'pending', 'estimated')
+   - `estimate`: Integer, Nullable
+
+4. **Votes Table**
+   - `vote_id`: Primary Key, Integer, Auto-increment
+   - `story_id`: Foreign Key referencing `Stories.story_id`
+   - `user_id`: Foreign Key referencing `Users.user_id`
+   - `vote_value`: Integer
+   - `created_at`: DateTime
+
+5. **Session Participants Table** (Optional, if you want to track who joins which session)
+   - `participant_id`: Primary Key, Integer, Auto-increment
+   - `session_id`: Foreign Key referencing `Sessions.session_id`
+   - `user_id`: Foreign Key referencing `Users.user_id`
+   - `joined_at`: DateTime
+
+**Considerations:**
+- **Indexes**: Make sure to index foreign keys and fields that are frequently queried (like `username` in the `Users` table).
+- **Normalization**: This schema is normalized to avoid data redundancy. However, depending on your queries, you might need to denormalize some parts for performance.
+- **Constraints**: Add appropriate constraints (like NOT NULL) and validation rules based on your app's requirements.
+- **Security**: Store only hashed passwords, not plain text.
+- **Scalability**: PostgreSQL offers good scalability options. As your app grows, you may need to consider partitioning, especially for large tables like `Votes`.
+
+This schema serves as a starting point. Depending on the specific requirements and features of your ScrumPoker app, you may need to adjust or extend this schema.

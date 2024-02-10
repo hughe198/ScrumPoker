@@ -1,0 +1,32 @@
+1. **User Management**
+   - `POST /users/register`: Registers a new user.
+   - `POST /users/login`: Authenticates a user and returns a token.
+   - `GET /users/{userId}`: Retrieves user details.
+   - `PUT /users/{userId}`: Updates user details.
+   - `DELETE /users/{userId}`: Deletes a user account.
+
+2. **Session Management**
+   - `POST /sessions`: Creates a new ScrumPoker session.
+   - `GET /sessions/{sessionId}`: Retrieves details of a specific session.
+   - `PUT /sessions/{sessionId}`: Updates session details (like changing the moderator).
+   - `DELETE /sessions/{sessionId}`: Ends a ScrumPoker session.
+
+3. **Gameplay**
+   - `POST /sessions/{sessionId}/stories`: Adds a new story or task to estimate.
+   - `GET /sessions/{sessionId}/stories/{storyId}`: Retrieves details of a specific story.
+   - `PUT /sessions/{sessionId}/stories/{storyId}`: Updates details of a story.
+   - `DELETE /sessions/{sessionId}/stories/{storyId}`: Removes a story from the session.
+
+4. **Voting**
+   - `POST /sessions/{sessionId}/stories/{storyId}/votes`: Submits a vote for a story.
+   - `GET /sessions/{sessionId}/stories/{storyId}/votes`: Retrieves all votes for a story.
+   - `DELETE /sessions/{sessionId}/stories/{storyId}/votes/{userId}`: Withdraws a user's vote.
+
+5. **Real-time Updates (WebSocket)**
+   - `WebSocket /ws/sessions/{sessionId}`: Establishes a WebSocket connection for real-time updates in a session (e.g., new votes, story completion).
+
+6. **Admin/Debugging (Optional)**
+   - `GET /admin/sessions`: Lists all active sessions (useful for admin monitoring).
+   - `GET /admin/users`: Lists all users (for admin purposes).
+
+When implementing these endpoints in FastAPI, ensure that you structure the routes clearly and use appropriate HTTP methods. Also, consider the security aspects, such as authentication and authorization, especially for endpoints that modify user or session data. WebSocket implementation will be crucial for real-time updates in the game, keeping all participants in sync. Transitioning to PostgreSQL from SQLite will provide better performance and scalability for handling multiple concurrent sessions and a larger number of users.
